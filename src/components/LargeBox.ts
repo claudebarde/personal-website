@@ -33,7 +33,9 @@ export class LargeBox extends LitElement {
         padding: var(--box-padding);
         margin: 0px 6px;
         border-radius: var(--std-radius);
-        height: calc(100% - 32px - 2px);
+        height: calc(
+          var(--std-box-height) * 2 + 1rem + (2 * var(--box-padding))
+        );
         width: 100%;
         background-color: #ffffff;
         box-shadow: var(--std-box-shadow);

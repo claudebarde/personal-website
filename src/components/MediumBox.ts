@@ -9,7 +9,7 @@ import { buttonFollow } from "../styles";
 export class MediumBox extends LitElement {
   @property()
   text = 'Some("undefined")';
-  @property()
+  @property({ reflect: true, attribute: "box-type" })
   boxType: BoxType = "empty";
 
   static styles = [

@@ -114,17 +114,17 @@ export class Body extends LitElement {
               <small-box text="GitHub" box-type="github"></small-box>
             </div>
             <div class="grid-item merged">
-              <large-box text="YouTube" boxType="youtube"></large-box>
+              <large-box text="YouTube" box-type="youtube"></large-box>
             </div>
             <div class="grid-item">
-              <medium-box text="Twitter" boxType="twitter"></medium-box>
+              <medium-box text="Twitter" box-type="twitter"></medium-box>
             </div>
             <div class="grid-item">
               <small-box text="LinkedIn" box-type="linkedin"></small-box>
               <small-box text="Telegram" box-type="telegram"></small-box>
             </div>
             <div class="grid-item">
-              <medium-box text="Blog" boxType="blog"></medium-box>
+              <medium-box text="Blog" box-type="blog"></medium-box>
             </div>
           </div>
         `;
