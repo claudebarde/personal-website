@@ -1,0 +1,158 @@
+import { html, type TemplateResult } from "lit";
+import type { BoxSize } from "./types";
+
+export const defaultData = {
+  youtube: {
+    icon: "youtube.svg",
+    iconColor: "#FF0000",
+    url: "https://www.youtube.com/",
+    username: "@0xCloudBird"
+  },
+  github: {
+    icon: "github.svg",
+    iconColor: "#181717",
+    url: "https://github.com/",
+    username: "claudebarde"
+  },
+  telegram: {
+    icon: "telegram.svg",
+    iconColor: "#0088cc",
+    url: "https://t.me/claudebarde",
+    username: "@claudebarde"
+  },
+  currentLocation: {
+    name: "London, UK",
+    coordinates: [51.503490128219134, -0.11257805254502244] as [number, number]
+  }
+};
+
+export const getIconPath = (boxType: string): string => {
+  switch (boxType) {
+    case "location":
+      return "/icons/map.png";
+    case "youtube":
+      return "/icons/youtube.svg";
+    case "github":
+      return "/icons/github.svg";
+    case "twitter":
+      return "/icons/twitter.svg";
+    case "linkedin":
+      return "/icons/linkedin.svg";
+    case "telegram":
+      return "/icons/telegram.svg";
+    case "blog":
+      return "/icons/blog.svg";
+    case "empty":
+      return "/icons/empty.svg";
+    default:
+      return "/icons/default.svg";
+  }
+};
+
+export const formatIsoDateToDmy = (isoDate: string): string => {
+  const [datePart] = isoDate.split("T");
+  const [year, month, day] = datePart.split("-");
+
+  if (!year || !month || !day) {
+    return isoDate;
+  }
+
+  return `${day}/${month}/${year}`;
+};
+
+/* Fetch Github Info and format body content */
+
+export type GithubInfo = {
+  avatar_url: string;
+  html_url: string;
+  public_repos: number;
+  followers: number;
+  created_at: string;
+  updated_at: string;
+};
+export const getGithubInfo = async (): Promise<GithubInfo | null> => {
+  try {
+    const info = await fetch("https://api.github.com/users/claudebarde");
+    if (info.ok) {
+      const data: GithubInfo = await info.json();
+      // TODO: Validate data structure with Zod
+      return data;
+    }
+  } catch (error) {
+    console.error("Error fetching Github info:", error);
+  }
+  return null;
+};
+export const getGithubBody = (
+  info: GithubInfo,
+  boxSize: BoxSize
+): TemplateResult => {
+  switch (boxSize) {
+    case "small":
+      return html`<p>Repos: ${info.public_repos}</p>
+        <p>Followers: ${info.followers}</p>
+        <p>Last activity: ${formatIsoDateToDmy(info.updated_at)}</p>`;
+    case "medium":
+      return html`GitHub Profile Repositories: ${info.public_repos} Followers:
+      ${info.followers}`;
+    case "large":
+      return html`<p>Repos: ${info.public_repos}</p>
+        <p>Followers: ${info.followers}</p>
+        <p>Last activity: ${formatIsoDateToDmy(info.updated_at)}</p>`;
+    default:
+      return html``;
+  }
+};
+
+/* Fetch Telegram Info and format body content */
+export type TelegramInfo = {
+  username: string;
+  url: string;
+};
+export const getTelegramInfo = async (): Promise<TelegramInfo | null> => {
+  return {
+    username: defaultData.telegram.username,
+    url: defaultData.telegram.url
+  };
+};
+export const getTelegramBody = (
+  info: TelegramInfo,
+  boxSize: BoxSize
+): TemplateResult => {
+  switch (boxSize) {
+    case "small":
+      return html`<div
+        style="display: flex; flex-direction: column;height: 100%;width: 100%;justify-content: flex-start;align-items: center;"
+      >
+        <a
+          href="${info.url}"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-button"
+        >
+          Contact me<br />On Telegram!
+        </a>
+      </div>`;
+    case "medium":
+      return html`Join me on Telegram: ${info.username}`;
+    case "large":
+      return html`<p>Connect with me on Telegram!</p>
+        <p>My username is ${info.username}.</p>
+        <p>
+          Feel free to reach out for chats, collaborations, or any inquiries you
+          might have.
+        </p>
+        <p>Looking forward to connecting with you!</p>`;
+    default:
+      return html``;
+  }
+};
+
+/* Builds map for location box type */
+export const getLocation = (): TemplateResult => {
+  return html`<div
+    style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
+  >
+    <p>location</p>
+  </div>`;
+};
