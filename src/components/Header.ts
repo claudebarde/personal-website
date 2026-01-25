@@ -14,7 +14,7 @@ export class AppHeader extends LitElement {
       background-color: #ffffff;
       padding: 10px 20px;
       border-radius: var(--std-radius);
-      width: 60%;
+      width: 70%;
     }
 
     :host img {

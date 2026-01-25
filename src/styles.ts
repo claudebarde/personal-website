@@ -52,4 +52,15 @@ export const linkToButton = css`
     background-color: var(--telegram-color);
     color: white;
   }
+  a.large-link-button {
+    text-decoration: none;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: center;
+    border: solid 1px var(--telegram-color);
+    border-radius: 15px;
+    padding: 5px 15px;
+    background-color: var(--telegram-color);
+    color: white;
+  }
 `;

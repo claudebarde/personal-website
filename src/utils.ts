@@ -1,5 +1,6 @@
 import { html, type TemplateResult } from "lit";
 import type { BoxSize } from "./types";
+import "./components/YouTubeLinkLarge.js";
 
 export const defaultData = {
   youtube: {
@@ -137,22 +138,75 @@ export const getTelegramBody = (
       return html`Join me on Telegram: ${info.username}`;
     case "large":
       return html`<p>Connect with me on Telegram!</p>
-        <p>My username is ${info.username}.</p>
         <p>
           Feel free to reach out for chats, collaborations, or any inquiries you
           might have.
         </p>
-        <p>Looking forward to connecting with you!</p>`;
+        <p>Looking forward to connecting with you!</p>
+        <p style="text-align: center;">
+          <a
+            href="${info.url}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="large-link-button"
+          >
+            Contact me on Telegram!
+          </a>
+        </p>`;
     default:
       return html``;
   }
 };
 
-/* Builds map for location box type */
-export const getLocation = (): TemplateResult => {
-  return html`<div
-    style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center;"
-  >
-    <p>location</p>
-  </div>`;
+/* Gets YouTube videos */
+export type YoutubeInfo = {
+  apiKey: string;
+  channelId: string;
+};
+export type YoutubeData = {
+  videoId: string;
+  title: string;
+  publishedAt: string;
+  description: string;
+  thumbnail: string;
+  url: string;
+  viewCount: string;
+  likeCount: string;
+  duration: string;
+};
+export async function getChannelVideos(): Promise<Array<YoutubeData>> {
+  const data = await fetch(`/.netlify/functions/loadYoutubeData`);
+  if (data.ok) {
+    const jsonData = await data.json();
+    return jsonData as Array<YoutubeData>;
+  } else {
+    console.error("Failed to fetch YouTube data:", data.statusText);
+    return [];
+  }
+}
+export const getYoutubeBody = (
+  data: Array<YoutubeData>,
+  boxSize: BoxSize
+): TemplateResult => {
+  switch (boxSize) {
+    case "small":
+      return html`<div>Under construction 🚧</div>`;
+    case "medium":
+      return html`<div>Under construction 🚧</div>`;
+    case "large":
+      return html` ${data.map(
+        info =>
+          html`<youtube-link-large
+            title="${info.title}"
+            url="${info.url}"
+            thumbnail="${info.thumbnail}"
+            description="${info.description}"
+            publishedAt="${info.publishedAt}"
+            viewCount="${info.viewCount}"
+            likeCount="${info.likeCount}"
+          />`
+      )}`;
+    default:
+      return html``;
+  }
 };

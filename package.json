@@ -3,6 +3,7 @@
   "module": "src/index.ts",
   "scripts": {
     "dev": "vite",
+    "netlify:dev": "netlify dev",
     "build": "vite build"
   },
   "devDependencies": {
@@ -16,6 +17,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@netlify/functions": "^5.1.2",
     "leaflet": "^1.9.4",
     "lit": "^3.2.1"
   }

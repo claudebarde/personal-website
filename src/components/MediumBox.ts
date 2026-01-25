@@ -1,6 +1,12 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { getIconPath } from "../utils";
+import {
+  getGithubBody,
+  getIconPath,
+  getTelegramBody,
+  GithubInfo,
+  TelegramInfo
+} from "../utils";
 import { BoxType } from "../types";
 import "./Icon.js";
 import { buttonFollow } from "../styles";
@@ -11,6 +17,10 @@ export class MediumBox extends LitElement {
   text = 'Some("undefined")';
   @property({ reflect: true, attribute: "box-type" })
   boxType: BoxType = "empty";
+  @property()
+  githubInfo?: GithubInfo;
+  @property()
+  telegramInfo?: TelegramInfo;
 
   static styles = [
     buttonFollow,
@@ -38,6 +48,35 @@ export class MediumBox extends LitElement {
     `
   ];
 
+  getBoxBody() {
+    switch (this.boxType) {
+      case "location":
+        return "Under construction 🚧";
+      case "youtube":
+        return "Under construction 🚧";
+      case "github":
+        if (this.githubInfo) {
+          return getGithubBody(this.githubInfo, "small");
+        } else {
+          return "No GitHub data available.";
+        }
+      case "twitter":
+        return "Under construction 🚧";
+      case "linkedin":
+        return "Under construction 🚧";
+      case "telegram":
+        if (this.telegramInfo) {
+          return getTelegramBody(this.telegramInfo, "small");
+        } else {
+          return "No Telegram data available.";
+        }
+      case "blog":
+        return "Under construction 🚧";
+      default:
+        return "";
+    }
+  }
+
   render() {
     const iconPath = getIconPath(this.boxType);
 
@@ -50,6 +89,7 @@ export class MediumBox extends LitElement {
             image="${iconPath}"
           ></icon-element>
         </div>
+        <div class="box-body">${this.getBoxBody()}</div>
       </div>
     `;
   }

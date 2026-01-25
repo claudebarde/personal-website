@@ -8,11 +8,15 @@ import {
   getTelegramBody,
   getGithubInfo,
   getTelegramInfo,
-  defaultData
+  YoutubeInfo,
+  getYoutubeBody,
+  getChannelVideos,
+  defaultData,
+  type YoutubeData
 } from "../utils";
 import type { BoxType } from "../types";
 import "./Icon.js";
-import { buttonFollow } from "../styles";
+import { buttonFollow, linkToButton } from "../styles";
 
 @customElement("large-box")
 export class LargeBox extends LitElement {
@@ -24,9 +28,14 @@ export class LargeBox extends LitElement {
   githubInfo?: GithubInfo;
   @property()
   telegramInfo?: TelegramInfo;
+  @property()
+  youtubeInfo?: YoutubeInfo;
+  @property()
+  youtubeVideos: Array<YoutubeData> = [];
 
   static styles = [
     buttonFollow,
+    linkToButton,
     css`
       :host {
         display: block;
@@ -48,7 +57,7 @@ export class LargeBox extends LitElement {
       }
 
       :host p {
-        margin: 0;
+        margin: 14px 0px;
       }
 
       :host([box-type="location"]) {
@@ -57,6 +66,15 @@ export class LargeBox extends LitElement {
         flex-direction: column;
         justify-content: center;
         align-items: flex-start;
+      }
+
+      :host([box-type="youtube"]) .box-body {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+      }
+        height: 100%;
+        width: 100%;
       }
 
       @media (max-width: 768px) {
@@ -86,6 +104,11 @@ export class LargeBox extends LitElement {
             this.telegramInfo = data;
           }
         });
+      } else if (this.boxType === "youtube") {
+        // gets YouTube videos
+        getChannelVideos().then(videos => {
+          this.youtubeVideos = videos;
+        });
       }
     }
   }
@@ -95,7 +118,11 @@ export class LargeBox extends LitElement {
       case "location":
         return "Under construction 🚧";
       case "youtube":
-        return "Under construction 🚧";
+        if (this.youtubeVideos.length > 0) {
+          return getYoutubeBody(this.youtubeVideos, "large");
+        } else {
+          return "No YouTube data available.";
+        }
       case "github":
         if (this.githubInfo) {
           return getGithubBody(this.githubInfo, "large");
@@ -132,7 +159,9 @@ export class LargeBox extends LitElement {
         <div>
           ${this.boxType === "location"
             ? `Now in ${defaultData.currentLocation.name}`
-            : ""}
+            : this.boxType === "youtube"
+              ? "My YouTube Channel"
+              : ""}
         </div>
         <div>
           ${this.boxType === "telegram"

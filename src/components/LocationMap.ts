@@ -19,6 +19,28 @@ export class LocationMap extends LitElement {
         width: 100%;
         height: calc(var(--std-box-height) + var(--box-padding) * 2);
         border-radius: var(--std-radius);
+        position: relative;
+      }
+
+      #map-plane {
+        position: absolute;
+        bottom: -1.5rem;
+        left: -1.5rem;
+        z-index: 999;
+        font-size: 1.5rem;
+        animation: map-plane-fly 15s ease-in-out 2s infinite;
+        will-change: left, bottom;
+      }
+
+      @keyframes map-plane-fly {
+        from {
+          bottom: -1.5rem;
+          left: -1.5rem;
+        }
+        to {
+          left: calc(100% + 1.5rem);
+          bottom: calc(100% + 1.5rem);
+        }
       }
 
       @media (max-width: 768px) {
@@ -63,6 +85,8 @@ export class LocationMap extends LitElement {
   }
 
   render() {
-    return html` <div id="map"></div> `;
+    return html` <div id="map">
+      <div id="map-plane">✈️</div>
+    </div>`;
   }
 }
