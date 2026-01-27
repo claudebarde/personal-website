@@ -11,9 +11,9 @@ import {
   YoutubeInfo,
   getYoutubeBody,
   getChannelVideos,
-  defaultData,
   type YoutubeData
 } from "../utils";
+import { defaultData } from "../config";
 import type { BoxType } from "../types";
 import "./Icon.js";
 import { buttonFollow, linkToButton } from "../styles";

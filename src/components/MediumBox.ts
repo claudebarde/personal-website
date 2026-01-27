@@ -7,8 +7,9 @@ import {
   GithubInfo,
   TelegramInfo
 } from "../utils";
-import { BoxType } from "../types";
+import { BoxType, BoxSize } from "../types";
 import "./Icon.js";
+import "./TwitterBox.js";
 import { buttonFollow } from "../styles";
 
 @customElement("medium-box")
@@ -21,6 +22,8 @@ export class MediumBox extends LitElement {
   githubInfo?: GithubInfo;
   @property()
   telegramInfo?: TelegramInfo;
+  @property()
+  boxSize: BoxSize = "medium";
 
   static styles = [
     buttonFollow,
@@ -42,6 +45,10 @@ export class MediumBox extends LitElement {
         }
       }
 
+      :host([box-type="twitter"]) {
+        padding: 0px;
+      }
+
       :host p {
         margin: 0;
       }
@@ -56,17 +63,15 @@ export class MediumBox extends LitElement {
         return "Under construction 🚧";
       case "github":
         if (this.githubInfo) {
-          return getGithubBody(this.githubInfo, "small");
+          return getGithubBody(this.githubInfo, this.boxSize);
         } else {
           return "No GitHub data available.";
         }
-      case "twitter":
-        return "Under construction 🚧";
       case "linkedin":
         return "Under construction 🚧";
       case "telegram":
         if (this.telegramInfo) {
-          return getTelegramBody(this.telegramInfo, "small");
+          return getTelegramBody(this.telegramInfo, this.boxSize);
         } else {
           return "No Telegram data available.";
         }
@@ -79,6 +84,10 @@ export class MediumBox extends LitElement {
 
   render() {
     const iconPath = getIconPath(this.boxType);
+
+    if (this.boxType === "twitter") {
+      return html`<twitter-box box-size="medium"></twitter-box>`;
+    }
 
     return html`
       <div>

@@ -1,31 +1,7 @@
 import { html, type TemplateResult } from "lit";
 import type { BoxSize } from "./types";
 import "./components/YouTubeLinkLarge.js";
-
-export const defaultData = {
-  youtube: {
-    icon: "youtube.svg",
-    iconColor: "#FF0000",
-    url: "https://www.youtube.com/",
-    username: "@0xCloudBird"
-  },
-  github: {
-    icon: "github.svg",
-    iconColor: "#181717",
-    url: "https://github.com/",
-    username: "claudebarde"
-  },
-  telegram: {
-    icon: "telegram.svg",
-    iconColor: "#0088cc",
-    url: "https://t.me/claudebarde",
-    username: "@claudebarde"
-  },
-  currentLocation: {
-    name: "London, UK",
-    coordinates: [51.503490128219134, -0.11257805254502244] as [number, number]
-  }
-};
+import { channelID, defaultData } from "./config";
 
 export const getIconPath = (boxType: string): string => {
   switch (boxType) {
@@ -175,7 +151,9 @@ export type YoutubeData = {
   duration: string;
 };
 export async function getChannelVideos(): Promise<Array<YoutubeData>> {
-  const data = await fetch(`/.netlify/functions/loadYoutubeData`);
+  const data = await fetch(
+    `/.netlify/functions/loadYoutubeData?channelId=${channelID}`
+  );
   if (data.ok) {
     const jsonData = await data.json();
     return jsonData as Array<YoutubeData>;

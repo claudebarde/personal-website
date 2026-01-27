@@ -48,6 +48,7 @@ export class Body extends LitElement {
         justify-content: center;
         align-items: center;
         width: 100%;
+        margin: 0px 0px 100px 0px;
       }
 
       .grid {
@@ -57,11 +58,11 @@ export class Body extends LitElement {
         align-items: center;
         width: 100%;
         height: 100%;
+        gap: 10px;
       }
 
       .grid-item {
         width: 100%;
-        height: 332px;
       }
     }
   `;

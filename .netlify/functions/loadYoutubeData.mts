@@ -3,7 +3,13 @@ import type { Context } from "@netlify/functions";
 export default async (req: Request, context: Context) => {
   try {
     const apiKey = Netlify.env.get("API_KEY");
-    const channelId = Netlify.env.get("CHANNEL_ID");
+    const channelId = req.url
+      ? new URL(req.url).searchParams.get("channelId")
+      : null;
+
+    if (!channelId) {
+      throw new Error("Channel ID is required");
+    }
 
     // Get channel details and uploads playlist ID
     const channelUrl = `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&id=${channelId}&key=${apiKey}`;

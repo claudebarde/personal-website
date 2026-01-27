@@ -1,7 +1,7 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import L from "leaflet";
-import { defaultData } from "../utils";
+import { defaultData } from "../config";
 import leafletCss from "leaflet/dist/leaflet.css?inline";
 
 @customElement("location-map")
