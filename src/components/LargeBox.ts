@@ -48,12 +48,22 @@ export class LargeBox extends LitElement {
         width: 100%;
         background-color: #ffffff;
         box-shadow: var(--std-box-shadow);
+        transition:
+          transform 300ms ease,
+          background-color 300ms ease;
+        transform-origin: center;
+        will-change: transform;
 
         .box-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
+      }
+      :host(:hover) {
+        background-color: #f8f9fa;
+        transform: scale(1.1);
+        z-index: 999;
       }
 
       :host p {

@@ -27,7 +27,7 @@ export class YouTubeLinkLarge extends LitElement {
     }
 
     :host(:hover) {
-      background-color: #f8f9fa;
+      background-color: #ebebeb;
       cursor: pointer;
     }
 

@@ -11,6 +11,7 @@ import { BoxType, BoxSize } from "../types";
 import "./Icon.js";
 import "./TwitterBox.js";
 import { buttonFollow } from "../styles";
+import { defaultData } from "../config";
 
 @customElement("medium-box")
 export class MediumBox extends LitElement {
@@ -37,12 +38,22 @@ export class MediumBox extends LitElement {
         width: 100%;
         background-color: #ffffff;
         box-shadow: var(--std-box-shadow);
+        transition:
+          transform 300ms ease,
+          background-color 300ms ease;
+        transform-origin: center;
+        will-change: transform;
 
         .box-header {
           display: flex;
           justify-content: space-between;
           align-items: center;
         }
+      }
+      :host(:hover) {
+        background-color: #f8f9fa;
+        transform: scale(1.1);
+        cursor: pointer;
       }
 
       :host([box-type="twitter"]) {
@@ -54,6 +65,18 @@ export class MediumBox extends LitElement {
       }
     `
   ];
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.addEventListener("click", this.onClick);
+  }
+
+  private onClick() {
+    // opens the current link in a separate window
+    if (this.boxType === "twitter") {
+      window.open(defaultData.twitter.url, "_blank");
+    }
+  }
 
   getBoxBody() {
     switch (this.boxType) {
