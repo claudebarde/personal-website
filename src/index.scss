@@ -1,3 +1,10 @@
+/*
+Map generation command: 
+uv run ./create_map_poster.py --city "London" --country "United Kingdom" --theme warm_beige --width 1920 --height 1080 --distance 15000
+from https://github.com/originalankur/maptoposter
+Original folder has been updated to remove the name of the city and the country and the latitude/longitude from the map
+*/
+
 html,
 body {
   margin: 0;
@@ -15,6 +22,27 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  position: relative;
+  background-color: #f8f8f8;
+  z-index: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("/bg-maps/london-uk.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 :root {

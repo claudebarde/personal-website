@@ -51,6 +51,7 @@ export class SmallBox extends LitElement {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        position: relative;
       }
 
       :host([box-type="github"]) {
@@ -70,6 +71,21 @@ export class SmallBox extends LitElement {
 
       :host p {
         margin: 0;
+      }
+
+      :host span#github-handle {
+        display: inline-block;
+        transform: translateX(100px);
+        opacity: 0;
+        font-style: italic;
+        transition:
+          transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s,
+          opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+      }
+
+      :host(:hover) span#github-handle {
+        transform: translateX(0);
+        opacity: 1;
       }
     `
   ];
@@ -152,7 +168,9 @@ export class SmallBox extends LitElement {
         <div>
           ${this.boxType === "telegram"
             ? html`<telegram-qr-button></telegram-qr-button>`
-            : ""}
+            : this.boxType === "github"
+              ? html`<span id="github-handle">@claudebarde</span>`
+              : ""}
         </div>
       </div>
       <div class="box-body">${this.getBoxBody()}</div>

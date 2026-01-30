@@ -1,7 +1,7 @@
 {
 	"geolocation": {
 		"data": {
-			"city": "London",
+			"city": "Newbury",
 			"country": {
 				"code": "GB",
 				"name": "United Kingdom"
@@ -11,10 +11,10 @@
 				"name": "England"
 			},
 			"timezone": "Europe/London",
-			"latitude": 51.5081,
-			"longitude": -0.1278,
-			"postalCode": "WC2N"
+			"latitude": 51.4029,
+			"longitude": -1.3132,
+			"postalCode": "RG14"
 		},
-		"timestamp": 1769519233156
+		"timestamp": 1769698717521
 	}
 }
