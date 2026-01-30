@@ -1,6 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import "./Icon.js";
+import "./IconWithLink.js";
 
 @customElement("app-header")
 export class AppHeader extends LitElement {
@@ -25,6 +25,7 @@ export class AppHeader extends LitElement {
       display: flex;
       align-items: center;
       justify-content: flex-start;
+      height: 1.2rem;
     }
 
     @media (max-width: 768px) {
@@ -49,12 +50,14 @@ export class AppHeader extends LitElement {
         <h3>Shadowy Super Coder | Crypto Dev | FPV Pilot</h3>
         <h4>
           Current position: Developer Relations @ Midnight
-          <icon-element
+          <icon-with-link
             name="midnight-white"
             size="18"
             image="midnight-white.png"
             bgStyle="black"
-          ></icon-element>
+            linkUrl="https://docs.midnight.network"
+            linkName="Midnight Docs"
+          ></icon-with-link>
         </h4>
       </div>
     `;
