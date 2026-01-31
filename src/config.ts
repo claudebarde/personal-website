@@ -33,7 +33,9 @@ export const defaultData = {
           Views are my own`
   },
   currentLocation: {
-    name: "London, UK",
-    coordinates: [51.503490128219134, -0.11257805254502244] as [number, number]
+    // name: "London, UK",
+    // coordinates: [51.503490128219134, -0.11257805254502244] as [number, number]
+    name: "Istanbul, Turkey",
+    coordinates: [41.03710740109011, 28.984709593709656] as [number, number]
   }
 };
