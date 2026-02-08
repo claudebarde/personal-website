@@ -6,6 +6,9 @@ import leafletCss from "leaflet/dist/leaflet.css?inline";
 
 @customElement("location-map")
 export class LocationMap extends LitElement {
+  @property()
+  currentLocationIsloaded = false;
+
   static styles = [
     css`
       :host {
@@ -20,6 +23,22 @@ export class LocationMap extends LitElement {
         height: calc(var(--std-box-height) + var(--box-padding) * 2);
         border-radius: var(--std-radius);
         position: relative;
+      }
+
+      #map-title {
+        position: absolute;
+        top: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60%;
+        z-index: 1000;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-align: center;
+        box-shadow: var(--std-box-shadow);
       }
 
       #map-plane {
@@ -76,8 +95,8 @@ export class LocationMap extends LitElement {
     };
 
     const coordinates = await getCoordinates();
-    console.log({ coordinates });
     if (!coordinates) {
+      this.currentLocationIsloaded = true;
       return;
     }
 
@@ -100,12 +119,16 @@ export class LocationMap extends LitElement {
       }).addTo(map);
       // adds a marker to the map
       L.marker(coordinates).addTo(map);
+      this.currentLocationIsloaded = true;
     }
   }
 
   render() {
-    return html` <div id="map">
-      <div id="map-plane">✈️</div>
+    return html`<div id="map">
+      ${this.currentLocationIsloaded
+        ? html`<div id="map-title">Current location</div>
+            <div id="map-plane">✈️</div>`
+        : html`<div id="map-title">Loading...</div>`}
     </div>`;
   }
 }
