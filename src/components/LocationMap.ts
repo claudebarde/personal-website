@@ -65,7 +65,7 @@ export class LocationMap extends LitElement {
     const getCoordinates = async () => {
       try {
         const currentLocation = await fetch(
-          "/.netlify/functions/fetcCurrentLocation"
+          "/.netlify/functions/fetchCurrentLocation"
         );
         const locationData = await currentLocation.json();
         return locationData.coordinates;

@@ -180,4 +180,4 @@ dist
 .netlify/*
 !.netlify/functions/
 !.netlify/functions/**
-
+.netlify/functions-serve/
