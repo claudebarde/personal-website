@@ -1,6 +1,6 @@
 import type { Context } from "@netlify/functions";
 
-export default async (req: Request, context: Context) => {
+export default async (req: Request, _context: Context) => {
   try {
     const apiKey = Netlify.env.get("API_KEY");
     const channelId = req.url

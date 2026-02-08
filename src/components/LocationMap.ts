@@ -61,7 +61,13 @@ export class LocationMap extends LitElement {
     unsafeCSS(leafletCss)
   ];
 
-  firstUpdated() {
+  async firstUpdated() {
+    const currentLocation = await fetch(
+      "/.netlify/functions/fetchCurrentLocation"
+    );
+    const locationData = await currentLocation.json();
+    console.log(locationData);
+
     const zoomLevel = 12;
     const el = this.renderRoot.querySelector("#map") as HTMLElement | null;
     if (el) {
