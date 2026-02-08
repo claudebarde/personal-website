@@ -62,11 +62,17 @@ export class LocationMap extends LitElement {
   ];
 
   async firstUpdated() {
-    const currentLocation = await fetch(
-      "/.netlify/functions/fetchCurrentLocation"
-    );
-    const locationData = await currentLocation.json();
-    console.log(locationData);
+    const getCoordinates = async () => {
+      try {
+        const currentLocation = await fetch(
+          "/.netlify/functions/fetcCurrentLocation"
+        );
+        const locationData = await currentLocation.json();
+        return locationData.coordinates;
+      } catch (_error) {
+        return defaultData.currentLocation.coordinates;
+      }
+    };
 
     const zoomLevel = 12;
     const el = this.renderRoot.querySelector("#map") as HTMLElement | null;
@@ -79,14 +85,14 @@ export class LocationMap extends LitElement {
         boxZoom: false,
         keyboard: false,
         touchZoom: false
-      }).setView(defaultData.currentLocation.coordinates, zoomLevel, {});
+      }).setView(await getCoordinates(), zoomLevel, {});
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: zoomLevel,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }).addTo(map);
       // adds a marker to the map
-      L.marker(defaultData.currentLocation.coordinates).addTo(map);
+      L.marker(await getCoordinates()).addTo(map);
     }
   }
 

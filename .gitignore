@@ -177,4 +177,7 @@ dist
 dist
 
 # Local Netlify folder
-.netlify
+.netlify/*
+!.netlify/functions/
+!.netlify/functions/**
+
