@@ -19,6 +19,8 @@ export const getIconPath = (boxType: string): string => {
       return "/icons/telegram.svg";
     case "blog":
       return "/icons/blog.svg";
+    case "email":
+      return "/icons/email.svg";
     case "empty":
       return "/icons/empty.svg";
     default:

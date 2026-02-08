@@ -23,6 +23,7 @@ export class LocationMap extends LitElement {
         height: calc(var(--std-box-height) + var(--box-padding) * 2);
         border-radius: var(--std-radius);
         position: relative;
+        background-color: #e0e0e0;
       }
 
       #map-title {

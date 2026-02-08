@@ -4,13 +4,13 @@ export const defaultData = {
   youtube: {
     icon: "youtube.svg",
     iconColor: "#FF0000",
-    url: "https://www.youtube.com/",
+    url: "https://www.youtube.com/@0xCloudBird",
     username: "@0xCloudBird"
   },
   github: {
     icon: "github.svg",
     iconColor: "#181717",
-    url: "https://github.com/",
+    url: "https://github.com/claudebarde",
     username: "claudebarde"
   },
   telegram: {
@@ -33,9 +33,8 @@ export const defaultData = {
           Views are my own`
   },
   currentLocation: {
-    // name: "London, UK",
-    // coordinates: [51.503490128219134, -0.11257805254502244] as [number, number]
-    name: "Istanbul, Turkey",
-    coordinates: [41.03710740109011, 28.984709593709656] as [number, number]
-  }
+    name: "London, UK",
+    coordinates: [51.503490128219134, -0.11257805254502244] as [number, number]
+  },
+  email: "cldbrd84@gmail.com"
 };

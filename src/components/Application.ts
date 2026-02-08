@@ -3,6 +3,7 @@ import { customElement, property } from "lit/decorators.js";
 import "./Header.js";
 import "./Body.js";
 import "./Modal.js";
+import "./ContactBox.js";
 
 @customElement("lit-app")
 export class LitApp extends LitElement {
@@ -31,6 +32,7 @@ export class LitApp extends LitElement {
     return html`
       <app-header></app-header>
       <app-main @qr-code-click=${this.onQrCodeClick}></app-main>
+      <contact-box></contact-box>
       <app-modal
         ?open=${this.isModalOpen}
         @close-modal=${() => (this.isModalOpen = false)}
