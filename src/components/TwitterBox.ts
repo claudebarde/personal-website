@@ -35,7 +35,7 @@ export class TwitterBox extends LitElement {
 
     .info {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 40% 60%;
       height: 100%;
     }
     .info .left-info {
@@ -55,6 +55,7 @@ export class TwitterBox extends LitElement {
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      padding: 10px;
     }
   `;
 
