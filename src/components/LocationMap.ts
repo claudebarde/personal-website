@@ -1,5 +1,7 @@
 import { LitElement, html, css, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { consume } from "@lit/context";
+import { appContext, type AppContext } from "../app-context";
 import L from "leaflet";
 import { defaultData } from "../config";
 import leafletCss from "leaflet/dist/leaflet.css?inline";
@@ -8,6 +10,9 @@ import leafletCss from "leaflet/dist/leaflet.css?inline";
 export class LocationMap extends LitElement {
   @property()
   currentLocationIsloaded = false;
+  @property({ reflect: true, attribute: "box-size" })
+  boxSize: "small" | "medium" | "large" = "small";
+  @consume({ context: appContext }) appContext!: AppContext;
 
   static styles = [
     css`
@@ -16,6 +21,10 @@ export class LocationMap extends LitElement {
         width: 100%;
         height: calc(var(--std-box-height) + var(--box-padding) * 2);
         border-radius: var(--std-radius);
+      }
+
+      :host([box-size="large"]) #map-title {
+        display: none;
       }
 
       #map {
@@ -65,14 +74,14 @@ export class LocationMap extends LitElement {
 
       @media (max-width: 768px) {
         :host {
-          height: calc(var(--mobile-box-height) - 50px);
+          height: 100%;
           border-top-left-radius: 0px;
           border-top-right-radius: 0px;
         }
 
         #map {
           width: 100%;
-          height: calc(var(--mobile-box-height) - 50px);
+          height: 100%;
           border-top-left-radius: 0px;
           border-top-right-radius: 0px;
         }
@@ -87,10 +96,32 @@ export class LocationMap extends LitElement {
         const currentLocation = await fetch(
           "/.netlify/functions/fetchCurrentLocation"
         );
-        const locationData: { data: { coordinates: [number, number] } } =
-          await currentLocation.json();
+        if (!currentLocation.ok) {
+          throw new Error("Unable to fetch current location.");
+        }
+
+        const locationData: {
+          data: {
+            coordinates: [number, number];
+            city: string | null;
+            country: string | null;
+          };
+        } = await currentLocation.json();
+
+        if (locationData.data.city && locationData.data.country) {
+          this.appContext.setLocation({
+            city: locationData.data.city,
+            country: locationData.data.country
+          });
+        }
+
         return locationData.data.coordinates;
       } catch (_error) {
+        // default location is set to London, UK
+        this.appContext.setLocation({
+          city: defaultData.currentLocation.name.city,
+          country: defaultData.currentLocation.name.country
+        });
         return defaultData.currentLocation.coordinates;
       }
     };
@@ -125,11 +156,13 @@ export class LocationMap extends LitElement {
   }
 
   render() {
+    const showMapTitle = this.boxSize !== "large";
+
     return html`<div id="map">
       ${this.currentLocationIsloaded
-        ? html`<div id="map-title">Current location</div>
+        ? html`${showMapTitle ? html`<div id="map-title">Current location</div>` : ""}
             <div id="map-plane">✈️</div>`
-        : html`<div id="map-title">Loading...</div>`}
+        : html`${showMapTitle ? html`<div id="map-title">Loading...</div>` : ""}`}
     </div>`;
   }
 }

@@ -1,5 +1,6 @@
 import { LitElement, html, css } from "lit";
 import { customElement, property } from "lit/decorators.js";
+import { consume } from "@lit/context";
 import {
   getIconPath,
   GithubInfo,
@@ -15,6 +16,7 @@ import {
 } from "../utils";
 import { defaultData } from "../config";
 import type { BoxType } from "../types";
+import { appContext, type AppContext } from "../app-context";
 import "./Icon.js";
 import { buttonFollow, linkToButton } from "../styles";
 
@@ -32,6 +34,7 @@ export class LargeBox extends LitElement {
   youtubeInfo?: YoutubeInfo;
   @property()
   youtubeVideos: Array<YoutubeData> = [];
+  @consume({ context: appContext, subscribe: true }) appContext!: AppContext;
 
   static styles = [
     buttonFollow,
@@ -158,6 +161,9 @@ export class LargeBox extends LitElement {
 
   render() {
     const iconPath = getIconPath(this.boxType);
+    const locationLabel = this.appContext?.location
+      ? `${this.appContext.location.city}, ${this.appContext.location.country}`
+      : `${defaultData.currentLocation.name.city}, ${defaultData.currentLocation.name.country}`;
 
     return html`
       <div class="box-header">
@@ -168,7 +174,7 @@ export class LargeBox extends LitElement {
         ></icon-element>
         <div>
           ${this.boxType === "location"
-            ? `Now in ${defaultData.currentLocation.name}`
+            ? `Now in ${locationLabel}`
             : this.boxType === "youtube"
               ? "My YouTube Channel"
               : ""}
@@ -180,7 +186,7 @@ export class LargeBox extends LitElement {
         </div>
       </div>
       ${this.boxType === "location"
-        ? html`<location-map></location-map>`
+        ? html`<location-map box-size="large"></location-map>`
         : html`<div class="box-body">${this.getBoxBody()}</div>`}
     `;
   }

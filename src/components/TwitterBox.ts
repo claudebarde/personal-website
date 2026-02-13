@@ -13,6 +13,7 @@ export class TwitterBox extends LitElement {
       height: 100%;
       width: 100%;
       position: relative;
+      container-type: inline-size;
     }
 
     .header {
@@ -46,9 +47,15 @@ export class TwitterBox extends LitElement {
       padding-left: 20px;
       padding-top: 40px;
     }
-    .info .left-info h3,
-    p {
+    .info .left-info h3 {
       margin: 0;
+      font-size: clamp(0.72rem, 3.2cqi, 1rem);
+      line-height: 1.2;
+    }
+
+    .info .left-info p {
+      margin: 0;
+      font-size: clamp(0.62rem, 2.4cqi, 0.85rem);
     }
     .info .right-info {
       font-size: 0.8rem;
@@ -56,6 +63,17 @@ export class TwitterBox extends LitElement {
       justify-content: flex-start;
       align-items: center;
       padding: 10px;
+    }
+
+    @container (max-width: 330px) {
+      .body img.avatar {
+        width: 50px;
+        height: 50px;
+      }
+
+      .info .left-info {
+        padding-left: 14px;
+      }
     }
   `;
 

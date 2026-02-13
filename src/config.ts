@@ -33,7 +33,7 @@ export const defaultData = {
           Views are my own`
   },
   currentLocation: {
-    name: "London, UK",
+    name: { city: "London", country: "United Kingdom" },
     coordinates: [51.503490128219134, -0.11257805254502244] as [number, number]
   },
   email: "cldbrd84@gmail.com"
