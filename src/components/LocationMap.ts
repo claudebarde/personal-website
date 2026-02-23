@@ -160,7 +160,9 @@ export class LocationMap extends LitElement {
 
     return html`<div id="map">
       ${this.currentLocationIsloaded
-        ? html`${showMapTitle ? html`<div id="map-title">Current location</div>` : ""}
+        ? html`${showMapTitle
+              ? html`<div id="map-title">Current location</div>`
+              : ""}
             <div id="map-plane">✈️</div>`
         : html`${showMapTitle ? html`<div id="map-title">Loading...</div>` : ""}`}
     </div>`;
