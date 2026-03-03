@@ -1,20 +1,20 @@
 {
 	"geolocation": {
 		"data": {
-			"city": "London",
+			"city": "Riga",
 			"country": {
-				"code": "GB",
-				"name": "United Kingdom"
+				"code": "LV",
+				"name": "Latvia"
 			},
 			"subdivision": {
-				"code": "ENG",
-				"name": "England"
+				"code": "RIX",
+				"name": "Rīga"
 			},
-			"timezone": "Europe/London",
-			"latitude": 51.5081,
-			"longitude": -0.1278,
-			"postalCode": "EC4V"
+			"timezone": "Europe/Riga",
+			"latitude": 56.9473,
+			"longitude": 24.0979,
+			"postalCode": "LV-1063"
 		},
-		"timestamp": 1770962480489
+		"timestamp": 1772524237810
 	}
 }

@@ -97,7 +97,7 @@ export class LocationMap extends LitElement {
           "/.netlify/functions/fetchCurrentLocation"
         );
         if (!currentLocation.ok) {
-          throw new Error("Unable to fetch current location.");
+          throw new Error(currentLocation.statusText);
         }
 
         const locationData: {
@@ -116,7 +116,8 @@ export class LocationMap extends LitElement {
         }
 
         return locationData.data.coordinates;
-      } catch (_error) {
+      } catch (error) {
+        console.error("Error fetching current location:", error);
         // default location is set to London, UK
         this.appContext.setLocation({
           city: defaultData.currentLocation.name.city,

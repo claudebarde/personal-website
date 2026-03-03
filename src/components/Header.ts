@@ -48,7 +48,7 @@ export class AppHeader extends LitElement {
       <div>
         <h1>Claude Barde</h1>
         <h3>Shadowy Super Coder | Crypto Dev | FPV Pilot</h3>
-        <h4>
+        <!-- <h4>
           Current position: Developer Relations @ Midnight
           <icon-with-link
             name="midnight-white"
@@ -58,7 +58,7 @@ export class AppHeader extends LitElement {
             linkUrl="https://docs.midnight.network"
             linkName="Midnight Docs"
           ></icon-with-link>
-        </h4>
+        </h4> -->
       </div>
     `;
   }

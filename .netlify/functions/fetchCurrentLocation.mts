@@ -1,4 +1,5 @@
 import type { Context } from "@netlify/functions";
+import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_URL = "https://wtxtoyyeseedesrmegmq.supabase.co";
 const LOCATION_TABLE = "locations";
@@ -22,31 +23,31 @@ export default async (_req: Request, _context: Context) => {
   if (!apiKey) {
     return buildErrorResponse(500, "Missing Supabase publishable API key.");
   }
+  const supabase = createClient(SUPABASE_URL, apiKey);
 
-  const endpoint = new URL(`${SUPABASE_URL}/rest/v1/${LOCATION_TABLE}`);
-  endpoint.searchParams.set("select", "id,created_at,city,country,coordinates");
-  endpoint.searchParams.set("order", "id.desc");
-  endpoint.searchParams.set("limit", "1");
+  const { data, error } = await supabase
+    .from(LOCATION_TABLE)
+    .select("id,created_at,city,country,coordinates")
+    .order("id", { ascending: false })
+    .limit(2);
 
-  const response = await fetch(endpoint.toString(), {
-    headers: {
-      apikey: apiKey,
-      Authorization: `Bearer ${apiKey}`
-    }
-  });
-
-  if (!response.ok) {
-    const details = await response.text();
-    return buildErrorResponse(response.status, `Supabase error: ${details}`);
+  if (error) {
+    return buildErrorResponse(500, `Supabase error: ${error.message}`);
   }
 
-  const rows = (await response.json()) as LocationRecord[];
-  const latest = rows[0];
-  if (!latest) {
-    return buildErrorResponse(404, "No location records found.");
+  if (!data || data.length === 0) {
+    return buildErrorResponse(500, "No location records found.");
   }
 
-  return new Response(JSON.stringify({ data: latest }), {
-    headers: { "Content-Type": "application/json" }
-  });
+  const [latest, previous] = data as LocationRecord[];
+  // if the timestamp of the latest is in the future, we return the previous one
+  if (new Date(latest.created_at) > new Date()) {
+    return new Response(JSON.stringify({ data: previous }), {
+      headers: { "Content-Type": "application/json" }
+    });
+  } else {
+    return new Response(JSON.stringify({ data: latest }), {
+      headers: { "Content-Type": "application/json" }
+    });
+  }
 };
