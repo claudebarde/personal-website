@@ -75,7 +75,13 @@ export class LitApp extends LitElement {
       return "uk";
     }
 
-    return value.trim().toLowerCase().replace(/\s+/g, "-");
+    return value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^\w\s-]/g, "")
+      .trim()
+      .toLowerCase()
+      .replace(/\s+/g, "-");
   }
 
   protected updated(changedProperties: Map<string, any>) {
